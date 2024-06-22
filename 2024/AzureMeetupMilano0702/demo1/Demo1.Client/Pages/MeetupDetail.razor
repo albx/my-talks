@@ -1,0 +1,32 @@
+﻿@page "/meetup/{id:guid}"
+
+@inject MeetupsService MeetupsService
+
+<h2>@(meetup?.Title ?? "Nessun meetup trovato")</h2>
+
+@if (meetup is null)
+{
+    <div>
+        <p>Il meetup che hai cercato non esiste</p>
+        <a href="/" class="btn btn-primary">Torna alla pagina principale</a>
+    </div>
+}
+else
+{
+    <div>
+        <p>@meetup.Date.ToShortDateString() dalle @meetup.Date.ToShortTimeString()</p>
+        <p>@meetup.Location</p>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private Shared.MeetupDetail? meetup;
+
+    protected override async Task OnInitializedAsync()
+    {
+        meetup = await MeetupsService.GetMeetupDetailAsync(Id);
+    }
+}

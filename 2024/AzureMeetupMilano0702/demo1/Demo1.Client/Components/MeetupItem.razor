@@ -1,0 +1,12 @@
+﻿<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Item.Title</h5>
+        <p class="card-text">@Item.Date.ToShortDateString() - @Item.Location</p>
+        <a href="meetup/@Item.Id" class="btn btn-primary">Dettagli</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public MeetupListItem Item { get; set; } = default!;
+}

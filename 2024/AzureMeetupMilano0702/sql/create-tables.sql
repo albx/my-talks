@@ -1,0 +1,18 @@
+CREATE TABLE [dbo].[Meetups]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Title] NVARCHAR(50) NOT NULL, 
+    [Location] NVARCHAR(100) NOT NULL, 
+    [Date] DATETIME NOT NULL
+)
+GO;
+
+CREATE TABLE [dbo].[MeetupAttendees]
+(
+	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [MeetupId] UNIQUEIDENTIFIER NOT NULL, 
+    [AttendeeId] NVARCHAR(50) NOT NULL, 
+    [AttendeeName] NVARCHAR(255) NOT NULL, 
+    CONSTRAINT [FK_MeetupAttendees_Meetups] FOREIGN KEY ([MeetupId]) REFERENCES [Meetups]([Id]) 
+)
+GO;

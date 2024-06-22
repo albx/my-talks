@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo1", "demo1", "{08681AEE-27D9-4424-90CA-6FE2DDDC330F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo2", "demo2", "{B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo3", "demo3", "{DAF6D38A-9488-4E19-A929-76CF966E9C95}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo1.Shared", "demo1\Demo1.Shared\Demo1.Shared.csproj", "{2DB81F48-2D2F-41A1-BE54-0E18A7831F26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo1.Client", "demo1\Demo1.Client\Demo1.Client.csproj", "{73C968E7-34B7-4DE5-ADBD-31279E085F13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo1.Api", "demo1\Demo1.Api\Demo1.Api.csproj", "{76E9D311-38ED-4485-B3EC-7C062E88893C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{4FA9211E-7FDB-4393-9F50-D764D1A2A9BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureMeetupMilanoSwa.Data", "AzureMeetupMilanoSwa.Data\AzureMeetupMilanoSwa.Data.csproj", "{11981446-AFC2-4D85-ABD8-5A3607FB3E58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{3631E145-5BDE-4617-9C14-1AEAA907B671}"
+	ProjectSection(SolutionItems) = preProject
+		sql\add-meetups.sql = sql\add-meetups.sql
+		sql\create-tables.sql = sql\create-tables.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DB81F48-2D2F-41A1-BE54-0E18A7831F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DB81F48-2D2F-41A1-BE54-0E18A7831F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DB81F48-2D2F-41A1-BE54-0E18A7831F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DB81F48-2D2F-41A1-BE54-0E18A7831F26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73C968E7-34B7-4DE5-ADBD-31279E085F13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73C968E7-34B7-4DE5-ADBD-31279E085F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73C968E7-34B7-4DE5-ADBD-31279E085F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73C968E7-34B7-4DE5-ADBD-31279E085F13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E9D311-38ED-4485-B3EC-7C062E88893C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E9D311-38ED-4485-B3EC-7C062E88893C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E9D311-38ED-4485-B3EC-7C062E88893C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E9D311-38ED-4485-B3EC-7C062E88893C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11981446-AFC2-4D85-ABD8-5A3607FB3E58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11981446-AFC2-4D85-ABD8-5A3607FB3E58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11981446-AFC2-4D85-ABD8-5A3607FB3E58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11981446-AFC2-4D85-ABD8-5A3607FB3E58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DB81F48-2D2F-41A1-BE54-0E18A7831F26} = {08681AEE-27D9-4424-90CA-6FE2DDDC330F}
+		{73C968E7-34B7-4DE5-ADBD-31279E085F13} = {08681AEE-27D9-4424-90CA-6FE2DDDC330F}
+		{76E9D311-38ED-4485-B3EC-7C062E88893C} = {08681AEE-27D9-4424-90CA-6FE2DDDC330F}
+		{11981446-AFC2-4D85-ABD8-5A3607FB3E58} = {4FA9211E-7FDB-4393-9F50-D764D1A2A9BB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36365AAB-9807-4CF7-9D07-E9D2DFF38DBF}
+	EndGlobalSection
+EndGlobal

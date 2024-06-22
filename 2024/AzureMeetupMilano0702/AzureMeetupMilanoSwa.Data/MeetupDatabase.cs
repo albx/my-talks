@@ -38,6 +38,26 @@ public class MeetupDatabase
         return attendees;
     }
 
+    public async Task<IEnumerable<Meetup>> GetMeetupsByAttendeeAsync(string attendeeId)
+    {
+        using var connection = BuildConnection();
+
+        var meetups = await connection.QueryAsync<Meetup>(
+            "SELECT m.* FROM Meetups m JOIN MeetupAttendees ma ON m.Id=ma.MeetupId WHERE ma.AttendeeId=@attendeeId ORDER BY m.Date",
+            new { attendeeId });
+
+        return meetups;
+    }
+
+    public async Task AttendToMeetup(Guid meetupId, string attendeeId, string attendeeName)
+    {
+        using var connection = BuildConnection();
+
+        await connection.ExecuteAsync(
+            "INSERT INTO MeetupAttendees(Id, MeetupId, AttendeeId, AttendeeName) VALUES(@Id, @MeetupId, @AttendeeId, @AttendeeName)",
+            new MeetupAttendee { Id = Guid.NewGuid(), MeetupId = meetupId, AttendeeId = attendeeId, AttendeeName = attendeeName });
+    }
+
     private SqlConnection BuildConnection()
     {
         var connection = new SqlConnection(_options.ConnectionString);

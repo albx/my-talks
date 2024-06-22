@@ -1,0 +1,22 @@
+{
+  "routes": [
+    {
+      "route": "/api/me/meetups",
+      "allowedRoles": [ "attendee" ]
+    },
+    {
+      "route": "/api/meetups/attend",
+      "methods": [ "POST" ],
+      "allowedRoles": [ "attendee" ]
+    },
+    {
+      "route": "/login",
+      "allowedRoles": [ "anonymous" ],
+      "rewrite": "/.auth/login/github"
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "index.html",
+    "exclude": [ "/css/*" ]
+  }
+}

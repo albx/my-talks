@@ -1,0 +1,45 @@
+﻿using Demo2.Shared;
+using System.Net.Http.Json;
+
+namespace Demo2.Client.Services;
+
+public class MeetupsService
+{
+    private readonly HttpClient _httpClient;
+
+    public MeetupsService(HttpClient httpClient)
+    {
+        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+    }
+
+    public async Task<MeetupListItem[]> GetAllMeetupsAsync()
+    {
+        var meetups = await _httpClient.GetFromJsonAsync<MeetupListItem[]>("api/meetups");
+        return meetups ?? [];
+    }
+
+    public async Task<MeetupDetail?> GetMeetupDetailAsync(Guid meetupId)
+    {
+        try
+        {
+            var meetup = await _httpClient.GetFromJsonAsync<MeetupDetail>($"api/meetups/{meetupId}");
+            return meetup;
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+    }
+
+    public async Task<MeetupListItem[]> GetMyMeetupsAsync()
+    {
+        var meetups = await _httpClient.GetFromJsonAsync<MeetupListItem[]>("api/me/meetups");
+        return meetups ?? [];
+    }
+
+    public async Task AttendToMeetupAsync(Guid meetupId)
+    {
+        var response = await _httpClient.PostAsJsonAsync("api/meetups/attend", new AttendToMeetupRequest(meetupId));
+        response.EnsureSuccessStatusCode();
+    }
+}

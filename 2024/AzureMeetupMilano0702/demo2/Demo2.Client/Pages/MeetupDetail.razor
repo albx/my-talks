@@ -1,0 +1,73 @@
+﻿@page "/meetup/{id:guid}"
+
+@inject MeetupsService MeetupsService
+
+<h2>@(meetup?.Title ?? "Nessun meetup trovato")</h2>
+
+@if (meetup is null)
+{
+    <div>
+        <p>Il meetup che hai cercato non esiste</p>
+        <a href="/" class="btn btn-primary">Torna alla pagina principale</a>
+    </div>
+}
+else
+{
+    <div>
+        <p>@meetup.Date.ToShortDateString() dalle @meetup.Date.ToShortTimeString()</p>
+        <p>@meetup.Location</p>
+    </div>
+
+    <AuthorizeView>
+        <Authorized>
+            <hr />
+            <div>
+                <button class="btn btn-primary" @onclick="AttendToMeetupAsync">Partecipa</button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <div>
+                    <div class="alert @(requestSucceeded ? "alert-success" : "alert-danger")">
+                        @message
+                    </div>
+                </div>
+                <div>
+                    <a href="/my-meetups" class="btn btn-outline-primary">Vedi i tuoi meetup</a>
+                </div>
+            }
+
+        </Authorized>
+    </AuthorizeView>
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private Shared.MeetupDetail? meetup;
+
+    private bool requestSucceeded = false;
+    private string? message = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        meetup = await MeetupsService.GetMeetupDetailAsync(Id);
+    }
+
+    private async Task AttendToMeetupAsync()
+    {
+        try
+        {
+            await MeetupsService.AttendToMeetupAsync(Id);
+
+            requestSucceeded = true;
+            message = "Partecipazione confermata con successo!";
+        }
+        catch
+        {
+            requestSucceeded = false;
+            message = "Si è verificato un errore durante la conferma per la partecipazione. Riprova più tardi";
+        }
+    }
+}

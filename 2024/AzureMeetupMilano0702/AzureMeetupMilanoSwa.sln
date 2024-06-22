@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo1.Api", "demo1\Demo1.Ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{4FA9211E-7FDB-4393-9F50-D764D1A2A9BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureMeetupMilanoSwa.Data", "AzureMeetupMilanoSwa.Data\AzureMeetupMilanoSwa.Data.csproj", "{11981446-AFC2-4D85-ABD8-5A3607FB3E58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureMeetupMilanoSwa.Data", "AzureMeetupMilanoSwa.Data\AzureMeetupMilanoSwa.Data.csproj", "{11981446-AFC2-4D85-ABD8-5A3607FB3E58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{3631E145-5BDE-4617-9C14-1AEAA907B671}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,9 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{3631E145-5BD
 		sql\create-tables.sql = sql\create-tables.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo2.Api", "demo2\Demo2.Api\Demo2.Api.csproj", "{5DCC074A-CD0B-48F0-852E-6ED03225644E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo2.Api", "demo2\Demo2.Api\Demo2.Api.csproj", "{5DCC074A-CD0B-48F0-852E-6ED03225644E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo2.Shared", "demo2\Demo2.Shared\Demo2.Shared.csproj", "{C07102A2-2026-4CBC-9D43-A426D6E93D4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo2.Shared", "demo2\Demo2.Shared\Demo2.Shared.csproj", "{C07102A2-2026-4CBC-9D43-A426D6E93D4B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo2.Client", "demo2\Demo2.Client\Demo2.Client.csproj", "{D24448DD-4185-42DE-9609-374D00022B2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{C07102A2-2026-4CBC-9D43-A426D6E93D4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C07102A2-2026-4CBC-9D43-A426D6E93D4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C07102A2-2026-4CBC-9D43-A426D6E93D4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24448DD-4185-42DE-9609-374D00022B2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24448DD-4185-42DE-9609-374D00022B2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24448DD-4185-42DE-9609-374D00022B2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24448DD-4185-42DE-9609-374D00022B2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{11981446-AFC2-4D85-ABD8-5A3607FB3E58} = {4FA9211E-7FDB-4393-9F50-D764D1A2A9BB}
 		{5DCC074A-CD0B-48F0-852E-6ED03225644E} = {B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}
 		{C07102A2-2026-4CBC-9D43-A426D6E93D4B} = {B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}
+		{D24448DD-4185-42DE-9609-374D00022B2D} = {B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36365AAB-9807-4CF7-9D07-E9D2DFF38DBF}

@@ -5,10 +5,10 @@ on:
     - azuremeetupmilano-swa
 env:
   AZURE_WEBAPP_NAME: azuremeetupmilano-demo2-api
-  AZURE_WEBAPP_PACKAGE_PATH: demo2/Demo2.Api/publish
+  AZURE_WEBAPP_PACKAGE_PATH: 2024/AzureMeetupMilano0702/demo2/Demo2.Api/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
-  WORKING_DIRECTORY: demo2/Demo2.Api
+  WORKING_DIRECTORY: 2024/AzureMeetupMilano0702/demo2/Demo2.Api
 jobs:
   build:
     runs-on: ubuntu-latest

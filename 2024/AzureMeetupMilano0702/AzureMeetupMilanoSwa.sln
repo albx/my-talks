@@ -8,6 +8,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo2", "demo2", "{B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo3", "demo3", "{DAF6D38A-9488-4E19-A929-76CF966E9C95}"
+	ProjectSection(SolutionItems) = preProject
+		demo3\Add-Entities.ps1 = demo3\Add-Entities.ps1
+		demo3\Setup-Db.ps1 = demo3\Setup-Db.ps1
+		demo3\swa-db-connections\staticwebapp.database.config.json = demo3\swa-db-connections\staticwebapp.database.config.json
+		demo3\swa-cli.config.json = demo3\swa-cli.config.json
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo1.Shared", "demo1\Demo1.Shared\Demo1.Shared.csproj", "{2DB81F48-2D2F-41A1-BE54-0E18A7831F26}"
 EndProject
@@ -30,6 +36,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo2.Shared", "demo2\Demo2.Shared\Demo2.Shared.csproj", "{C07102A2-2026-4CBC-9D43-A426D6E93D4B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo2.Client", "demo2\Demo2.Client\Demo2.Client.csproj", "{D24448DD-4185-42DE-9609-374D00022B2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo3.Client", "demo3\Demo3.Client\Demo3.Client.csproj", "{E3424242-6C4C-4D39-960D-C2305B7AC1EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +73,10 @@ Global
 		{D24448DD-4185-42DE-9609-374D00022B2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D24448DD-4185-42DE-9609-374D00022B2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D24448DD-4185-42DE-9609-374D00022B2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3424242-6C4C-4D39-960D-C2305B7AC1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3424242-6C4C-4D39-960D-C2305B7AC1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3424242-6C4C-4D39-960D-C2305B7AC1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3424242-6C4C-4D39-960D-C2305B7AC1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +89,7 @@ Global
 		{5DCC074A-CD0B-48F0-852E-6ED03225644E} = {B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}
 		{C07102A2-2026-4CBC-9D43-A426D6E93D4B} = {B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}
 		{D24448DD-4185-42DE-9609-374D00022B2D} = {B5665553-9C1D-4E7A-927A-FA3D2FFBCF7B}
+		{E3424242-6C4C-4D39-960D-C2305B7AC1EF} = {DAF6D38A-9488-4E19-A929-76CF966E9C95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36365AAB-9807-4CF7-9D07-E9D2DFF38DBF}

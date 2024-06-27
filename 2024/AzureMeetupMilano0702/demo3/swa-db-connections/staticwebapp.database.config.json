@@ -58,7 +58,7 @@
     },
     "MeetupAttendee": {
       "source": {
-        "object": "dbo.MeetupAttendee",
+        "object": "dbo.MeetupAttendees",
         "type": "table"
       },
       "graphql": {

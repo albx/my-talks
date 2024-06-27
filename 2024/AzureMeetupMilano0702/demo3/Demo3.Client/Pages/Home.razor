@@ -1,7 +1,30 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+@inject MeetupsService MeetupsService
 
-<h1>Hello, world!</h1>
+<PageTitle>Azure Meetup Milano - Dal PC al Cloud in 5 minuti con Azure Static Web Apps</PageTitle>
 
-Welcome to your new app.
+<h1>Elenco dei meetup</h1>
+
+@if (meetups.Length == 0)
+{
+    <h2>Nessun meetup presente :(</h2>
+}
+else
+{
+    foreach (var meetup in meetups)
+    {
+        <div class="col-md-12 mb-3">
+            <MeetupItem Item="meetup" />
+        </div>
+    }
+}
+
+@code {
+    private MeetupListItem[] meetups = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        meetups = await MeetupsService.GetAllMeetupsAsync();
+    }
+}

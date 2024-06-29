@@ -1,15 +1,19 @@
 ﻿using Demo3.Client.Models;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Json;
+using System.Security.Claims;
 
 namespace Demo3.Client.Services;
 
 public class MeetupsService
 {
     private readonly HttpClient _httpClient;
+    private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-    public MeetupsService(HttpClient httpClient)
+    public MeetupsService(HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        _authenticationStateProvider = authenticationStateProvider ?? throw new ArgumentNullException(nameof(authenticationStateProvider));
     }
 
     public async Task<MeetupListItem[]> GetAllMeetupsAsync()
@@ -39,8 +43,11 @@ public class MeetupsService
 
     public async Task AttendToMeetupAsync(Guid meetupId)
     {
-        //var response = await _httpClient.PostAsJsonAsync("api/meetups/attend", new AttendToMeetupRequest(meetupId));
-        //response.EnsureSuccessStatusCode();
-        throw new NotImplementedException();
+        var authenticationState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        var attendeeId = authenticationState.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var attendeeName = authenticationState.User.FindFirst(ClaimTypes.Name)?.Value;
+
+        var response = await _httpClient.PostAsJsonAsync("AttendToMeetup", new { attendeeId, attendeeName, meetupId });
+        response.EnsureSuccessStatusCode();
     }
 }

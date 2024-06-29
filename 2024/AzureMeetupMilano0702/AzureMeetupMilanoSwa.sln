@@ -28,6 +28,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{3631E145-5BDE-4617-9C14-1AEAA907B671}"
 	ProjectSection(SolutionItems) = preProject
 		sql\add-meetups.sql = sql\add-meetups.sql
+		sql\attend-to-meetups-sp.sql = sql\attend-to-meetups-sp.sql
 		sql\create-tables.sql = sql\create-tables.sql
 		sql\my-meetups-view.sql = sql\my-meetups-view.sql
 	EndProjectSection

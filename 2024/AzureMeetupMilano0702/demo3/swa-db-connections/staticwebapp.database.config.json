@@ -56,40 +56,6 @@
         }
       ]
     },
-    "MeetupAttendee": {
-      "source": {
-        "object": "dbo.MeetupAttendees",
-        "type": "table"
-      },
-      "graphql": {
-        "enabled": true,
-        "type": {
-          "singular": "MeetupAttendee",
-          "plural": "MeetupAttendees"
-        }
-      },
-      "rest": {
-        "enabled": true
-      },
-      "permissions": [
-        {
-          "role": "anonymous",
-          "actions": [
-            {
-              "action": "read"
-            }
-          ]
-        },
-        {
-          "role": "authenticated",
-          "actions": [
-            {
-              "action": "create"
-            }
-          ]
-        }
-      ]
-    },
     "MyMeetups": {
       "source": {
         "object": "dbo.MyMeetupsView",
@@ -117,6 +83,41 @@
               "policy": {
                 "database": "@item.AttendeeId eq @claims.userId"
               }
+            }
+          ]
+        }
+      ]
+    },
+    "AttendToMeetup": {
+      "source": {
+        "object": "dbo.AttendToMeetupStoredProcedure",
+        "type": "stored-procedure",
+        "parameters": {
+          "attendeeId": "attendeeId",
+          "attendeeName": "attendeeName",
+          "meetupId": "meetupId"
+        }
+      },
+      "graphql": {
+        "enabled": false,
+        "operation": "mutation",
+        "type": {
+          "singular": "AttendToMeetup",
+          "plural": "AttendToMeetups"
+        }
+      },
+      "rest": {
+        "enabled": true,
+        "methods": [
+          "post"
+        ]
+      },
+      "permissions": [
+        {
+          "role": "authenticated",
+          "actions": [
+            {
+              "action": "execute"
             }
           ]
         }

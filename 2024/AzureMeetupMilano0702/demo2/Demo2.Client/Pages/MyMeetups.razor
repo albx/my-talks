@@ -1,4 +1,5 @@
 ﻿@page "/my-meetups"
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "attendee")]
 
 @inject MeetupsService MeetupsService
 

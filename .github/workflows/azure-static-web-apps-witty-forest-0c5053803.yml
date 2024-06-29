@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD
+name: Demo3 - Azure Static Web Apps CI/CD
 
 on:
   workflow_dispatch:

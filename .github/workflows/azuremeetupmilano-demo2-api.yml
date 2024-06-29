@@ -1,8 +1,11 @@
 name: Build and deploy .NET Core application to Web App azuremeetupmilano-demo2-api
 on:
+  workflow_dispatch:
   push:
     branches:
     - azuremeetupmilano-swa
+    paths: 
+    - '2024/AzureMeetupMilano0702/demo2/Demo2.Api/**'
 env:
   AZURE_WEBAPP_NAME: azuremeetupmilano-demo2-api
   AZURE_WEBAPP_PACKAGE_PATH: 2024/AzureMeetupMilano0702/demo2/Demo2.Api/publish

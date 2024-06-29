@@ -1,9 +1,12 @@
 name: Azure Static Web Apps CI/CD
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - azuremeetupmilano-swa
+    paths: 
+      - '2024/AzureMeetupMilano0702/demo2/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:

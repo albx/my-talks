@@ -81,10 +81,42 @@
           ]
         },
         {
-          "role": "attendee",
+          "role": "authenticated",
           "actions": [
             {
               "action": "create"
+            }
+          ]
+        }
+      ]
+    },
+    "MyMeetups": {
+      "source": {
+        "object": "dbo.MyMeetupsView",
+        "type": "view",
+        "key-fields": [
+          "Id"
+        ]
+      },
+      "graphql": {
+        "enabled": true,
+        "type": {
+          "singular": "MyMeetup",
+          "plural": "MyMeetups"
+        }
+      },
+      "rest": {
+        "enabled": true
+      },
+      "permissions": [
+        {
+          "role": "authenticated",
+          "actions": [
+            {
+              "action": "read",
+              "policy": {
+                "database": "@item.AttendeeId eq @claims.userId"
+              }
             }
           ]
         }

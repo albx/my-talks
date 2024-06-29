@@ -33,9 +33,8 @@ public class MeetupsService
 
     public async Task<MeetupListItem[]> GetMyMeetupsAsync()
     {
-        //var meetups = await _httpClient.GetFromJsonAsync<MeetupListItem[]>("api/me/meetups");
-        //return meetups ?? [];
-        throw new NotImplementedException();
+        var meetups = await _httpClient.GetFromJsonAsync<Response<MeetupListItem>>("MyMeetups");
+        return meetups?.Value ?? [];
     }
 
     public async Task AttendToMeetupAsync(Guid meetupId)

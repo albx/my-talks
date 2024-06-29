@@ -11,6 +11,8 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - azuremeetupmilano-swa
+    paths: 
+      - '2024/AzureMeetupMilano0702/demo2/**'
 
 jobs:
   build_and_deploy_job:

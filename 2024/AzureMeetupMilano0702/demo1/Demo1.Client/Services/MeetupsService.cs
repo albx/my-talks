@@ -30,4 +30,16 @@ public class MeetupsService
             return null;
         }
     }
+
+    public async Task<MeetupListItem[]> GetMyMeetupsAsync()
+    {
+        var meetups = await _httpClient.GetFromJsonAsync<MeetupListItem[]>("api/me/meetups");
+        return meetups ?? [];
+    }
+
+    public async Task AttendToMeetupAsync(Guid meetupId)
+    {
+        var response = await _httpClient.PostAsJsonAsync("api/meetups/attend", new AttendToMeetupRequest(meetupId));
+        response.EnsureSuccessStatusCode();
+    }
 }

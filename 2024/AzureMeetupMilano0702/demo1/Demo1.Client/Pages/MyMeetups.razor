@@ -1,0 +1,31 @@
+﻿@page "/my-meetups"
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "attendee")]
+
+@inject MeetupsService MeetupsService
+
+<PageTitle>Azure Meetup Milano - Dal PC al Cloud in 5 minuti con Azure Static Web Apps</PageTitle>
+
+<h1>I miei meetup</h1>
+
+@if (meetups.Length == 0)
+{
+    <h2>Nessun meetup presente :(</h2>
+}
+else
+{
+    foreach (var meetup in meetups)
+    {
+        <div class="col-md-12 mb-3">
+            <MeetupItem Item="meetup" />
+        </div>
+    }
+}
+
+@code {
+    private MeetupListItem[] meetups = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        meetups = await MeetupsService.GetMyMeetupsAsync();
+    }
+}

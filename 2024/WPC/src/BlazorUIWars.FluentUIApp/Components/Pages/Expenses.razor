@@ -1,0 +1,219 @@
+﻿@page "/expenses"
+
+@inject IExpenseReportService ExpenseReportService
+@inject IDialogService DialogService
+@inject IToastService ToastService
+
+<PageTitle>Expense reports</PageTitle>
+
+<h1>Expense reports</h1>
+
+<FluentStack Orientation="Orientation.Horizontal"
+             Style="margin-top:5px; margin-bottom:5px;">
+    <FluentButton Appearance="Appearance.Accent"
+                  IconStart="@(new Icons.Regular.Size20.TaskListAdd())"
+                  OnClick="AddNewExpenseReportAsync">
+        Add new expense report
+    </FluentButton>
+</FluentStack>
+
+<FluentDivider Style="margin-bottom:10px;" />
+
+<FluentDataGrid Items="FilteredItems"
+                Loading="loading"
+                ResizableColumns="true"
+                ResizeType="DataGridResizeType.Discrete"
+                Pagination="pagination">
+    <LoadingContent>
+        <FluentProgress />
+    </LoadingContent>
+    <EmptyContent>
+        <FluentLabel>No expense reports found</FluentLabel>
+    </EmptyContent>
+    <ChildContent>
+        <PropertyColumn Property="@(e => e.Title)" Title="Title" Sortable="true" Filtered="!string.IsNullOrWhiteSpace(titleFilter)">
+            <ColumnOptions>
+                <div style="width:100%;">
+                    <FluentSearch Autofocus="true" @bind-Value="titleFilter" @bind-Value:after="HandleSearchTitleClear" @oninput="OnSearchTitle" Placeholder="Type a value..." />
+                </div>
+            </ColumnOptions>
+        </PropertyColumn>
+        <PropertyColumn Property="@(e => e.Date.ToShortDateString())" Title="Date" Sortable="true" />
+        <PropertyColumn Property="@(e => e.Type.ToString())" Title="Type" Sortable="true" Filtered="expenseTypeFilter.HasValue">
+            <ColumnOptions>
+                <div style="width:100%;">
+                    <FluentCombobox TOption="ExpenseReport.ExpenseType?" 
+                                    Items="expenseTypes"
+                                    Placeholder="Choose an expense type..."
+                                    @bind-SelectedOption="expenseTypeFilter"/>
+                </div>
+            </ColumnOptions>
+        </PropertyColumn>
+        <PropertyColumn Property="@(e => e.Amount)" Title="Amount" Format="N2" />
+        <TemplateColumn Context="expenseReport">
+            <FluentStack Orientation="Orientation.Horizontal"
+                         VerticalAlignment="VerticalAlignment.Center">
+                <FluentButton Appearance="Appearance.Accent"
+                              IconStart="@(new Icons.Regular.Size20.Eye())"
+                              OnClick="@(() => OpenExpenseDetailAsync(expenseReport.Id))">
+                    Details
+                </FluentButton>
+                <FluentButton Appearance="Appearance.Outline"
+                              IconStart="@(new Icons.Regular.Size20.Delete())"
+                              OnClick="@(() => DeleteExpenseReportAsync(expenseReport))">
+                    Delete
+                </FluentButton>
+            </FluentStack>
+        </TemplateColumn>
+    </ChildContent>
+</FluentDataGrid>
+
+<FluentPaginator State="@pagination" />
+
+@code {
+    private IQueryable<ExpenseReportListModel.ExpenseReportListItem> expenses = default!;
+
+    private bool loading = false;
+
+    private string titleFilter = string.Empty;
+
+    private ExpenseReport.ExpenseType? expenseTypeFilter = null;
+
+    private ExpenseReport.ExpenseType?[] expenseTypes = [null, ..Enum.GetValues<ExpenseReport.ExpenseType>()];
+
+    private PaginationState pagination = new PaginationState { ItemsPerPage = 5 };
+
+    private IQueryable<ExpenseReportListModel.ExpenseReportListItem> FilteredItems
+    {
+        get
+        {
+            var filteredItems = expenses;
+
+            if (!string.IsNullOrWhiteSpace(titleFilter))
+            {
+                filteredItems = filteredItems.Where(e => e.Title.Contains(titleFilter, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (expenseTypeFilter.HasValue)
+            {
+                filteredItems = filteredItems.Where(e => e.Type == expenseTypeFilter.Value);
+            }
+
+            return filteredItems;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadExpenseReportsAsync();
+    }
+
+    private void OnSearchTitle(ChangeEventArgs e)
+    {
+        if (e.Value is string value)
+        {
+            titleFilter = value;
+        }
+    }
+
+    private void HandleSearchTitleClear()
+    {
+        if (string.IsNullOrWhiteSpace(titleFilter))
+        {
+            titleFilter = string.Empty;
+        }
+    }
+
+    private async Task LoadExpenseReportsAsync()
+    {
+        loading = true;
+
+        try
+        {
+            await Task.Delay(1000);
+
+            var expenseListModel = await ExpenseReportService.GetExpenseReportsAsync();
+            expenses = expenseListModel.Items.AsQueryable();
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task AddNewExpenseReportAsync()
+    {
+        var dialog = await DialogService.ShowPanelAsync<AddNewExpenseReportDialog>(new DialogParameters
+        {
+            Title = "Add new expense report",
+            Alignment = HorizontalAlignment.Right,
+            Width = "40em"
+        });
+
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            var expenseReportId = result.Data as Guid?;
+            if (expenseReportId.HasValue)
+            {
+                await OnNewExpenseReportAddedAsync(expenseReportId.Value);
+            }
+        }
+    }
+
+    private async Task OnNewExpenseReportAddedAsync(Guid expenseReportId)
+    {
+        await LoadExpenseReportsAsync();
+        await OpenExpenseDetailAsync(expenseReportId);
+    }
+
+    private async Task OpenExpenseDetailAsync(Guid expenseReportId)
+    {
+        var expenseReport = await ExpenseReportService.GetExpenseReportAsync(expenseReportId);
+        if (expenseReport is null)
+        {
+            return;
+        }
+
+        var detailViewModel = new ExpenseReportDetailDialog.ViewModel
+        {
+            ExpenseReportId = expenseReportId,
+            Model = expenseReport,
+            OnExpenseReportSaved = EventCallback.Factory.Create(this, LoadExpenseReportsAsync)
+        };
+
+        var dialog = await DialogService.ShowPanelAsync<ExpenseReportDetailDialog>(detailViewModel, new DialogParameters
+        {
+            Title = "Expense report detail",
+            Alignment = HorizontalAlignment.Right,
+            Width = "40em"
+        });
+
+        await dialog.Result;
+    }
+
+    private async Task DeleteExpenseReportAsync(ExpenseReportListModel.ExpenseReportListItem expenseReport)
+    {
+        var confirm = await DialogService.ShowConfirmationAsync(
+            $"Are you sure you want to delete the expense report '{expenseReport.Title}'?",
+            primaryText: "Delete",
+            secondaryText: "Cancel",
+            title: "Delete expense report");
+
+        var result = await confirm.Result;
+        if (!result.Cancelled)
+        {
+            try
+            {
+                await ExpenseReportService.DeleteExpenseReportAsync(expenseReport.Id);
+                ToastService.ShowSuccess($"Expense report '{expenseReport.Title}' deleted successfully!");
+
+                await LoadExpenseReportsAsync();
+            }
+            catch
+            {
+                ToastService.ShowError($"Error deleting report '{expenseReport.Title}'. Please, try again later");
+            }
+
+        }
+    }
+}

@@ -1,0 +1,139 @@
+﻿@implements IDialogContentComponent<ExpenseReportDetailDialog.ViewModel>
+
+@inject IExpenseReportService ExpenseReportService
+@inject IMessageService MessageService
+
+<FluentGrid>
+    <FluentGridItem xs="12" md="12">
+        <FluentMessageBarProvider Section="EditExpenseReportMessageSection"/>
+    </FluentGridItem>
+    <FluentGridItem xs="12" md="12">
+        <EditForm Model="Content.Model"
+                  OnValidSubmit="SubmitAsync">
+            <DataAnnotationsValidator />
+
+            <FluentDialogBody>
+                <FluentStack Style="margin-bottom:10px;"
+                             Orientation="Orientation.Vertical">
+                    <FluentCombobox TOption="Option<ExpenseReport.ExpenseType>"
+                                    Items="expenseTypes"
+                                    Label="Type"
+                                    Required="true"
+                                    OptionValue="@(e => e.Value.ToString())"
+                                    OptionText="@(e => e.Text)"
+                                    Value="@Content.Model.Type.ToString()"
+                                    ValueChanged="@(v => Content.Model.Type = Enum.Parse<ExpenseReport.ExpenseType>(v))"
+                                    Style="width:100%;" />
+                    <FluentValidationMessage For="@(() => Content.Model.Type)" />
+                </FluentStack>
+                <FluentStack Style="margin-bottom:10px;"
+                             Orientation="Orientation.Vertical">
+                    <FluentNumberField Label="Amount"
+                                       @bind-Value="Content.Model.Amount"
+                                       Step="0.01"
+                                       Appearance="FluentInputAppearance.Filled"
+                                       Required="true"
+                                       Style="width:100%;">
+                        <FluentLabel Slot="start">&euro;</FluentLabel>
+                    </FluentNumberField>
+                    <FluentValidationMessage For="@(() => Content.Model.Amount)" />
+                </FluentStack>
+                <FluentStack Style="margin-bottom:10px;"
+                             Orientation="Orientation.Vertical">
+                    <FluentTextField Label="Title"
+                                     @bind-Value="Content.Model.Title"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%"
+                                     Required="true" />
+                    <FluentValidationMessage For="@(() => Content.Model.Title)" />
+                </FluentStack>
+                <FluentStack Style="margin-bottom:10px;"
+                             Orientation="Orientation.Vertical">
+                    <FluentDatePicker Label="Date"
+                                      @bind-Value="Content.Model.Date"
+                                      Appearance="FluentInputAppearance.Filled"
+                                      Style="width:100%"
+                                      Required="true" />
+                    <FluentValidationMessage For="@(() => Content.Model.Date)" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentTextField Label="Location"
+                                     @bind-Value="Content.Model.Location"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical">
+                    <FluentTextField Label="Notes"
+                                     @bind-Value="Content.Model.Notes"
+                                     Appearance="FluentInputAppearance.Filled"
+                                     Style="width:100%;" />
+                </FluentStack>
+            </FluentDialogBody>
+            <FluentDialogFooter>
+                <FluentButton Type="ButtonType.Submit"
+                              Appearance="Appearance.Accent"
+                              Loading="saving">
+                    Save
+                </FluentButton>
+                <FluentButton Appearance="Appearance.Outline"
+                              Type="ButtonType.Button"
+                              Disabled="saving"
+                              OnClick="CancelAsync">
+                    Cancel
+                </FluentButton>
+            </FluentDialogFooter>
+        </EditForm>
+    </FluentGridItem>
+</FluentGrid>
+
+
+@code {
+    [Parameter]
+    public ViewModel Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private bool saving = false;
+
+    private Option<ExpenseReport.ExpenseType>[] expenseTypes = [];
+
+    protected override void OnInitialized()
+    {
+        expenseTypes = Enum.GetValues<ExpenseReport.ExpenseType>()
+            .Select(e => new Option<ExpenseReport.ExpenseType> { Value = e, Text = e.ToString() })
+            .ToArray();
+    }
+
+    private async Task SubmitAsync()
+    {
+        saving = true;
+
+        try
+        {
+            await ExpenseReportService.UpdateExpenseReportAsync(Content.ExpenseReportId, Content.Model);
+            MessageService.ShowMessageBar("Expense report saved successfully", MessageIntent.Success, "EditExpenseReportMessageSection");
+
+            await Content.OnExpenseReportSaved.InvokeAsync();
+        }
+        catch
+        {
+            MessageService.ShowMessageBar("An error occurred while saving the expense report", MessageIntent.Error, "EditExpenseReportMessageSection");
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private async Task CancelAsync() => await Dialog.CancelAsync();
+
+    public record ViewModel
+    {
+        public Guid ExpenseReportId { get; init; }
+
+        public ExpenseReportModel Model { get; init; } = default!;
+
+        public EventCallback OnExpenseReportSaved { get; init; }
+    }
+}

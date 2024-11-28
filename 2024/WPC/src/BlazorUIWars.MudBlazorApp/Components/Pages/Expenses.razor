@@ -1,0 +1,168 @@
+﻿@page "/expenses"
+
+@using MudBlazor.Extensions
+
+@inject IExpenseReportService ExpenseReportService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<PageTitle>Expense reports</PageTitle>
+
+<h1>Expense reports</h1>
+
+<MudGrid Class="mb-2">
+    <MudItem xs="12" md="12">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddNewExpenseReportAsync">
+            Add new expense report
+        </MudButton>
+    </MudItem>
+</MudGrid>
+<MudDivider Class="mb-2" />
+
+<MudDataGrid Items="@model.Items"
+             SortMode="SortMode.Multiple"
+             Filterable="true"
+             Loading="loading">
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <NoRecordsContent>
+        <MudText>No expense reports found</MudText>
+    </NoRecordsContent>
+    <Columns>
+        <PropertyColumn Property="e => e.Title" Title="Title" />
+        <TemplateColumn Title="Date">
+            <CellTemplate>
+                @context.Item.Date.ToShortDateString()
+            </CellTemplate>
+        </TemplateColumn>
+        <PropertyColumn Property="e => e.Type" Title="Type" />
+        <PropertyColumn Property="e => e.Amount" Title="Amount" Format="N2" />
+        <TemplateColumn>
+            <CellTemplate>
+                <MudButtonGroup Variant="Variant.Outlined">
+                    <MudButton StartIcon="@Icons.Material.Filled.RemoveRedEye" OnClick="@(() => OpenExpenseDetailAsync(context.Item.Id))">
+                        Details
+                    </MudButton>
+                    <MudButton StartIcon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteExpenseReportAsync(context.Item))">
+                        Delete
+                    </MudButton>
+                </MudButtonGroup>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager PageSizeOptions="pageSizes" />
+    </PagerContent>
+</MudDataGrid>
+
+
+@code {
+    private bool loading = false;
+
+    private ExpenseReportListModel model = new();
+
+    private int[] pageSizes = [5, 10, 25, 50, 100];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadExpenseReportsAsync();
+    }
+
+    private async Task LoadExpenseReportsAsync()
+    {
+        loading = true;
+
+        try
+        {
+            await Task.Delay(1000);
+
+            model = await ExpenseReportService.GetExpenseReportsAsync();
+            //expenses = expenseListModel.Items.AsQueryable();
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task AddNewExpenseReportAsync()
+    {
+        var dialogResult = await DialogService.Show<AddNewExpenseReportDialog>(
+            "Add new expense report",
+            new DialogOptions
+            {
+                MaxWidth = MaxWidth.ExtraLarge,
+                FullWidth = true,
+                CloseButton = true,
+                Position = DialogPosition.TopCenter
+            }).Result;
+
+        if (!dialogResult!.Canceled)
+        {
+            var expenseReportId = dialogResult.Data?.As<Guid>();
+            if (expenseReportId.HasValue)
+            {
+                await OnNewExpenseReportAddedAsync(expenseReportId.Value);
+            }
+        }
+    }
+
+    private async Task OnNewExpenseReportAddedAsync(Guid expenseReportId)
+    {
+        await LoadExpenseReportsAsync();
+        await OpenExpenseDetailAsync(expenseReportId);
+    }
+
+    private async Task OpenExpenseDetailAsync(Guid expenseReportId)
+    {
+        var expenseReport = await ExpenseReportService.GetExpenseReportAsync(expenseReportId);
+        if (expenseReport is null)
+        {
+            return;
+        }
+
+        var dialogResult = await DialogService.Show<ExpenseReportDetailDialog>(
+            "Expense report details",
+            new DialogParameters
+            {
+                [nameof(ExpenseReportDetailDialog.ExpenseReportId)] = expenseReportId,
+                [nameof(ExpenseReportDetailDialog.Model)] = expenseReport,
+                [nameof(ExpenseReportDetailDialog.OnExpenseReportSaved)] = EventCallback.Factory.Create(this, LoadExpenseReportsAsync)
+            },
+            new DialogOptions
+            {
+                MaxWidth = MaxWidth.ExtraLarge,
+                FullWidth = true,
+                CloseButton = true,
+                Position = DialogPosition.TopCenter
+            }).Result;
+    }
+
+    private async Task DeleteExpenseReportAsync(ExpenseReportListModel.ExpenseReportListItem expenseReport)
+    {
+        var dialogResult = await DialogService.Show<ConfirmDialog>(
+            "Delete expense report",
+            new DialogParameters
+            {
+                [nameof(ConfirmDialog.ConfirmText)] = "Are you sure you want to delete this expense report?",
+                [nameof(ConfirmDialog.ConfirmButtonText)] = "Delete",
+                [nameof(ConfirmDialog.CancelButtonText)] = "Cancel"
+            }).Result;
+
+        if (!dialogResult!.Canceled)
+        {
+            try
+            {
+                await ExpenseReportService.DeleteExpenseReportAsync(expenseReport.Id);
+                Snackbar.Add($"Expense report '{expenseReport.Title}' deleted successfully!", Severity.Success);
+
+                await LoadExpenseReportsAsync();
+            }
+            catch
+            {
+                Snackbar.Add($"Error deleting expense report {expenseReport.Title}", Severity.Error);
+            }
+        }
+    }
+}

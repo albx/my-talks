@@ -1,0 +1,111 @@
+﻿@inject IExpenseReportService ExpenseReportService
+@inject ISnackbar Snackbar
+
+<EditForm Model="model"
+          OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <MudDialog>
+        <DialogContent>
+            <MudSelect Label="Type"
+                       Variant="Variant.Outlined"
+                       @bind-Value="model.Type"
+                       Required="true"
+                       For="@(() => model.Type)"
+                       Class="mb-2">
+                @foreach (var expenseType in Enum.GetValues<ExpenseReport.ExpenseType>())
+                {
+                    <MudSelectItem Value="@expenseType">@expenseType</MudSelectItem>
+                }
+            </MudSelect>
+            <MudNumericField Label="Amount"
+                             Variant="Variant.Outlined"
+                             @bind-Value="model.Amount"
+                             Required="true"
+                             For="@(() => model.Amount)"
+                             Class="mb-2"
+                             Adornment="Adornment.Start"
+                             AdornmentIcon="@Icons.Material.Filled.Euro"
+                             Min="0"
+                             Step="0.1M"
+                             Format="N2" />
+            <MudTextField Label="Title"
+                          @bind-Value="model.Title"
+                          Variant="Variant.Outlined"
+                          For="@(() => model.Title)"
+                          Required="true"
+                          Class="mb-2" />
+            <MudDatePicker Label="Date"
+                           Variant="Variant.Outlined"
+                           Editable="true"
+                           @bind-Date="model.Date"
+                           Required="true"
+                           For="@(() => model.Date)"
+                           Class="mb-2" />
+            <MudTextField Label="Location"
+                          Variant="Variant.Outlined"
+                          @bind-Value="model.Location"
+                          For="@(() => model.Location)"
+                          Class="mb-2" />
+            <MudTextField Label="Notes"
+                          Variant="Variant.Outlined"
+                          @bind-Value="model.Notes"
+                          For="@(() => model.Notes)"
+                          Class="mb-2" />
+        </DialogContent>
+        <DialogActions>
+            @if (saving)
+            {
+                <MudProgressCircular Indeterminate="true" Size="Size.Small" />
+            }
+            else 
+            {
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">
+                    Save
+                </MudButton>
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Outlined" Color="Color.Primary" OnClick="Cancel">
+                    Cancel
+                </MudButton>
+            }
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter]
+    public MudDialogInstance DialogInstance { get; set; } = default!;
+
+    private ExpenseReportModel model = new();
+
+    private bool saving = false;
+
+    private async Task SubmitAsync()
+    {
+        saving = true;
+
+        try
+        {
+            var expenseReportId = await ExpenseReportService.CreateExpenseReportAsync(model);
+            Snackbar.Add(
+                "Expense report saved correctly",
+                Severity.Success);
+
+            DialogInstance.Close(expenseReportId);
+        }
+        catch
+        {
+            Snackbar.Add(
+                "An error occurred while saving the expense report",
+                Severity.Error);
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        DialogInstance.Cancel();
+    }
+}

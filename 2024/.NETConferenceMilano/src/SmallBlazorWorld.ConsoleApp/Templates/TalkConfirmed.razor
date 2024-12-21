@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Talk Confirmed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your talk @Model.TalkTitle has been confirmed!</h1>
+    <p>Congratulations! Your talk @Model.TalkTitle has been accepted for the event @Model.EventName</p>
+    <p>The event will take place on @Model.EventDate.ToShortDateString() at @Model.EventLocation</p>
+    <p>Please, contact the organization to confirm your partecipation</p>
+</body>
+</html>
+
+@code {
+    [Parameter]
+    public Emailodel Model { get; set; } = default!;
+
+    public record Emailodel(
+        string TalkTitle,
+        string EventName,
+        string EventLocation,
+        DateOnly EventDate);
+}

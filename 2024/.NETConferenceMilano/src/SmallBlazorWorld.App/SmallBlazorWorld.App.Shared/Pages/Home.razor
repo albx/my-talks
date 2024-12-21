@@ -1,0 +1,19 @@
+﻿@page "/"
+@inject IFormFactor FormFactor
+
+<PageTitle>My Events</PageTitle>
+
+<h1>My events</h1>
+
+<MyEvents />
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="submit" style="width:100%;" class="btn btn-primary">Submit new proposal</a>
+    </div>
+</div>
+
+@code {
+    private string factor => FormFactor.GetFormFactor();
+    private string platform => FormFactor.GetPlatform();
+}

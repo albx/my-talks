@@ -1,0 +1,89 @@
+﻿@page "/submit"
+
+@inject IEventsService EventsService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Submit a proposal</PageTitle>
+
+<h1>Submit a proposal</h1>
+
+<EditForm Model="model" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="mb-2">
+            <div class="alert alert-danger">@errorMessage</div>
+        </div>
+    }
+
+    <div class="mb-2">
+        <label>Event</label>
+        <InputSelect @bind-Value="model.EventId" class="form-control">
+            <option value="">Choose an event...</option>
+            @foreach (var item in events)
+            {
+                <option value="@item.Id">@item.Name (@item.Date.ToString("dd/MM/yyyy") - @item.Location)</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="mb-2">
+        <label>Talk</label>
+        <InputSelect @bind-Value="model.TalkId" @bind-Value:after="FillTalkAbstract" class="form-control">
+            <option value="">Choose a talk...</option>
+            @foreach (var talk in talks)
+            {
+                <option value="@talk.Id">@talk.Title</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="mb-2">
+        <label>Abstract</label>
+        <textarea disabled class="form-control" rows="10">@talkAbstract</textarea>
+    </div>
+
+    <div class="mb-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+    private SubmitProposalModel model = new();
+
+    private string? talkAbstract;
+
+    private EventModel[] events = [];
+
+    private TalkModel[] talks = [];
+
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await EventsService.GetEventsAsync();
+        talks = await EventsService.GetTalksAsync();
+    }
+
+    private void FillTalkAbstract()
+    {
+        var selectedTalk = talks.FirstOrDefault(t => t.Id == model.TalkId);
+        talkAbstract = selectedTalk?.Abstract;
+    }
+
+    private async Task SubmitAsync()
+    {
+        errorMessage = null;
+
+        try
+        {
+            await EventsService.SubmitProposalAsync(model);
+            NavigationManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}

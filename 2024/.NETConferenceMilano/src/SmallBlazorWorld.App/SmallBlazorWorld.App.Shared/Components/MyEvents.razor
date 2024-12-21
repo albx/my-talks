@@ -1,0 +1,53 @@
+﻿@inject IEventsService EventsService
+
+@if (loading)
+{
+    <h2>Loading...</h2>
+}
+else
+{
+    <div class="row">
+        @if (myEvents.Length == 0)
+        {
+            <div class="col-md-12">
+                <div class="alert alert-info">Nothing here...</div>
+            </div>
+        }
+        else
+        {
+            foreach (var myEvent in myEvents)
+            {
+                <div class="col-md-12 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@myEvent.EventName</h5>
+                            <h6 class="card-subtitle mb-2">@myEvent.TalkTitle</h6>
+                            <p class="card-text">@myEvent.EventDate.ToString("dd/MM/yyyy")</p>
+                            <p class="card-text">@myEvent.EventLocation</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+
+@code {
+    private MyEventModel[] myEvents = [];
+
+    private bool loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        loading = true;
+
+        try
+        {
+            myEvents = await EventsService.GetMyEventsAsync();
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

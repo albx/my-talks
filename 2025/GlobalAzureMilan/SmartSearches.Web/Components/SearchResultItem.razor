@@ -1,0 +1,32 @@
+﻿@using SmartSearches.Web.Models
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Item.Document.Title</h5>
+        <h6 class="card-subtitle mb-2 text-muted">@(Item.Score.HasValue ? Item.Score.Value : "-") / @(Item.RerankerScore.HasValue ? Item.RerankerScore.Value : "-")</h6>
+        <p class="card-text">
+            @Item.Document.Chunk
+        </p>
+
+        @if (Item.Captions is not null and { Length: > 0 })
+        {
+            @foreach (var caption in Item.Captions)
+            {
+                @if (!string.IsNullOrEmpty(caption.Text))
+                {
+                    <p class="card-text">@caption.Text</p>
+                }
+
+                @if (!string.IsNullOrEmpty(caption.Highlights))
+                {
+                    <p class="card-text">@caption.Highlights</p>
+                }
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public SearchResultItemModel Item { get; set; } = default!;
+}

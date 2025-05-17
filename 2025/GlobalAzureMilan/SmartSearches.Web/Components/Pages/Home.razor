@@ -1,0 +1,95 @@
+﻿@page "/"
+
+<PageTitle>MyGym - Cerca</PageTitle>
+
+<h1>MyGym - Benvenuto</h1>
+
+<div class="row">
+    <div class="container">
+        <EditForm Model="model" role="form" class="row row-cols-auto g-3 align-items-center" OnValidSubmit="SearchAsync">
+            <DataAnnotationsValidator />
+
+            <div class="col-md-3">
+                <label class="visually-hidden" for="queryType">Tipo di ricerca</label>
+                <InputSelect @bind-Value="model.QueryType"
+                             class="form-control"
+                             id="queryType">
+                    @foreach (var item in Enum.GetValues<SmartSearches.Web.Models.SearchModel.QueryTypeEnum>())
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="col-md-3">
+                <label class="visually-hidden" for="indexName">Scegli l'indice</label>
+                <InputSelect @bind-Value="model.IndexName"
+                             class="form-control"
+                             id="indexName">
+                    @foreach (var index in indexes)
+                    {
+                        <option value="@index">@index</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="col-md-4">
+                <label class="visually-hidden" for="searchText">Cosa vuoi cercare</label>
+                <InputText @bind-Value="model.Text"
+                           class="form-control"
+                           id="searchText"
+                           placeholder="Scrivi qui cosa vuoi cercare..." />
+                <ValidationMessage For="@(() => model.Text)" />
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary" disabled="@searching">
+                    @if (searching)
+                    {
+                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    }
+                    <span role="status">Search</span>
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="container">
+        @if (searching)
+        {
+            <div class="d-flex align-items-center">
+                <div class="spinner-border text-primary mx-2" style="width: 3rem; height: 3rem;" aria-hidden="true"></div>
+                <strong role="status" style="font-size:1.5rem;">Sto cercando...</strong>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger">@errorMessage</div>
+        }
+        else
+        {
+            @if (results is null)
+            {
+                <div class="alert alert-info">
+                    Cerca le informazioni di cui hai bisogno compilando il campo sopra
+                </div>
+            }
+            else if (results is { Length: 0 })
+            {
+                <div class="alert alert-warning">
+                    Nessun elemento trovato, prova a cambiare i termini di ricerca
+                </div>
+            }
+            else
+            {
+                @foreach (var item in results)
+                {
+                    <div class="col-md-12 mb-2">
+                        <SearchResultItem Item="@item" />
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>

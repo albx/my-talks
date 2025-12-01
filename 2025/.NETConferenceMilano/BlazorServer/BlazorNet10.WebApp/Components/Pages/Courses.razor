@@ -1,0 +1,68 @@
+﻿@page "/courses"
+@rendermode InteractiveServer
+
+@inject CoursesService CoursesService
+@inject PersistentComponentState ApplicationState
+@implements IDisposable
+
+<PageTitle>Course list</PageTitle>
+
+<h1>Course list</h1>
+
+@if (!RendererInfo.IsInteractive || CourseList is null)
+{
+    <h2>Loading...</h2>
+}
+else
+{
+    @if (CourseList.Length == 0)
+    {
+        <h2>No courses found</h2>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var course in CourseList)
+            {
+                <div class="col-md-4 mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@course.Title</h5>
+                            <p class="card-text">@course.Description</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    //[PersistentState]
+    public Course[]? CourseList { get; set; }
+
+    private PersistingComponentStateSubscription? persistingSubscription;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!ApplicationState.TryTakeFromJson<Course[]>(nameof(CourseList), out var courses))
+        {
+            CourseList = await CoursesService.GetCoursesAsync();
+        }
+        else
+        {
+            CourseList = courses;
+        }
+
+        persistingSubscription = ApplicationState.RegisterOnPersisting(() =>
+        {
+            ApplicationState.PersistAsJson(nameof(CourseList), CourseList);
+            return Task.CompletedTask;
+        });
+
+        //.NET 10
+        //CourseList ??= await CoursesService.GetCoursesAsync();
+    }
+
+    public void Dispose() => persistingSubscription?.Dispose();
+}

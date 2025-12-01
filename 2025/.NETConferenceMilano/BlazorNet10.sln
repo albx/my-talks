@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11123.170
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorServer", "BlazorServer", "{25E494DE-D415-4BF4-A45C-329622F9A2AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorWasm", "BlazorWasm", "{05B992AA-9DAF-4AB4-A1F7-2EDFFB48820A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet10.WebApp", "BlazorServer\BlazorNet10.WebApp\BlazorNet10.WebApp.csproj", "{98E37622-79C5-11C7-F598-62907DC90C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet10.AppHost", "BlazorNet10.AppHost\BlazorNet10.AppHost.csproj", "{9C7170A3-F7EF-4543-BE73-C7CFF387ED15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet10.ServiceDefaults", "BlazorNet10.ServiceDefaults\BlazorNet10.ServiceDefaults.csproj", "{32EBE8B1-FB7F-1D4B-B00D-C07E4AC5490E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet10.WasmApp", "BlazorWasm\BlazorNet10.WasmApp\BlazorNet10.WasmApp.csproj", "{C191D7BA-7E07-4A97-AAE2-082BF29FA7B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet10.WebApi", "BlazorServer\BlazorNet10.WebApi\BlazorNet10.WebApi.csproj", "{AD3CA55C-A91F-2A81-8B2D-963F69C02D70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNet10.Web.Models", "BlazorServer\BlazorNet10.Web.Models\BlazorNet10.Web.Models.csproj", "{46FF72D3-7CB3-429F-9113-33D5E3C5C600}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98E37622-79C5-11C7-F598-62907DC90C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E37622-79C5-11C7-F598-62907DC90C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E37622-79C5-11C7-F598-62907DC90C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E37622-79C5-11C7-F598-62907DC90C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C7170A3-F7EF-4543-BE73-C7CFF387ED15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C7170A3-F7EF-4543-BE73-C7CFF387ED15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C7170A3-F7EF-4543-BE73-C7CFF387ED15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C7170A3-F7EF-4543-BE73-C7CFF387ED15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32EBE8B1-FB7F-1D4B-B00D-C07E4AC5490E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32EBE8B1-FB7F-1D4B-B00D-C07E4AC5490E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32EBE8B1-FB7F-1D4B-B00D-C07E4AC5490E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32EBE8B1-FB7F-1D4B-B00D-C07E4AC5490E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C191D7BA-7E07-4A97-AAE2-082BF29FA7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C191D7BA-7E07-4A97-AAE2-082BF29FA7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C191D7BA-7E07-4A97-AAE2-082BF29FA7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C191D7BA-7E07-4A97-AAE2-082BF29FA7B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD3CA55C-A91F-2A81-8B2D-963F69C02D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD3CA55C-A91F-2A81-8B2D-963F69C02D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD3CA55C-A91F-2A81-8B2D-963F69C02D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD3CA55C-A91F-2A81-8B2D-963F69C02D70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46FF72D3-7CB3-429F-9113-33D5E3C5C600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46FF72D3-7CB3-429F-9113-33D5E3C5C600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46FF72D3-7CB3-429F-9113-33D5E3C5C600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46FF72D3-7CB3-429F-9113-33D5E3C5C600}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{98E37622-79C5-11C7-F598-62907DC90C75} = {25E494DE-D415-4BF4-A45C-329622F9A2AE}
+		{C191D7BA-7E07-4A97-AAE2-082BF29FA7B7} = {05B992AA-9DAF-4AB4-A1F7-2EDFFB48820A}
+		{AD3CA55C-A91F-2A81-8B2D-963F69C02D70} = {25E494DE-D415-4BF4-A45C-329622F9A2AE}
+		{46FF72D3-7CB3-429F-9113-33D5E3C5C600} = {25E494DE-D415-4BF4-A45C-329622F9A2AE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97771EF6-B0E2-4C7C-BD7A-4D47D24E0FBF}
+	EndGlobalSection
+EndGlobal

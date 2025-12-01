@@ -1,6 +1,12 @@
 # My Talks
 Here you can find the list of the talks I've done, with slides and demos.
 
+## 2025
+
+- [Global Azure Milan 2025](./2025/GlobalAzureMilan/)
+- [1nn0vAI](./2025/1nn0vAI/)
+- [.NET Conference Milano](./2025/.NETConferenceMilano/)
+
 ## 2024
 
 - [Working Software 2024](./2024/WorkingSoftware/)

@@ -1,0 +1,76 @@
+﻿@page "/order"
+@rendermode InteractiveServer
+
+<PageTitle>Place your order</PageTitle>
+
+<h1>Place your order</h1>
+
+<EditForm Model="model" OnValidSubmit="PlaceOrderAsync" role="form">
+    <DataAnnotationsValidator />
+
+    <fieldset class="mb-2">
+        <legend>Address info</legend>
+        <div class="row">
+            <div class="col-md-5">
+                <label>Address</label>
+                <InputText class="form-control" @bind-Value="model.Address.Address" />
+                <ValidationMessage For="@(() => model.Address.Address)" />
+            </div>
+            <div class="col-md-5">
+                <label>City</label>
+                <InputText class="form-control" @bind-Value="model.Address.City" />
+                <ValidationMessage For="@(() => model.Address.City)" />
+            </div>
+            <div class="col-md-2">
+                <label>Zip code</label>
+                <InputText class="form-control" @bind-Value="model.Address.ZipCode" />
+                <ValidationMessage For="@(() => model.Address.ZipCode)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="mb-2">
+        <legend>Order items</legend>
+        <div class="row">
+            @foreach (var item in model.LineItems)
+            {
+                <div class="row mb-2">
+                    <div class="col-md-10">
+                        <label>Item</label>
+                        <InputText class="form-control" @bind-Value="item.ItemName" />
+                        <ValidationMessage For="@(() => item.ItemName)" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Quantity</label>
+                        <InputNumber class="form-control" @bind-Value="item.Quantity" />
+                        <ValidationMessage For="@(() => item.Quantity)" />
+                    </div>
+                </div>
+            }
+
+            <div class="col-md-12">
+                <button type="button" @onclick="AddNewItem" class="btn btn-outline-primary btn-sm">add new</button>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="mb-2">
+        <button type="submit" class="btn btn-primary">Send</button>
+    </div>
+</EditForm>
+
+@code {
+    private OrderModel model = new();
+
+    protected override void OnInitialized()
+    {
+        model.LineItems.Add(new());
+    }
+
+    private void AddNewItem() => model.LineItems.Add(new());
+
+    private async Task PlaceOrderAsync()
+    {
+        await Task.CompletedTask;
+    }
+}

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
+	  <!--<WasmProfilers>browser</WasmProfilers>
+	  <WasmNativeStrip>false</WasmNativeStrip>
+	  <WasmNativeDebugSymbols>true</WasmNativeDebugSymbols>-->
+	  <!-- disable debugger -->
+	  <WasmDebugLevel>0</WasmDebugLevel>
+	  <!--<EnableDiagnostics>true</EnableDiagnostics>
+	  <WasmPerfTracing>true</WasmPerfTracing>
+	  <WasmPerfInstrumentation>all</WasmPerfInstrumentation>
+	  <EventSourceSupport>true</EventSourceSupport>
+	  <MetricsSupport>true</MetricsSupport>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

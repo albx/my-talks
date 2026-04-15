@@ -1,6 +1,10 @@
 # My Talks
 Here you can find the list of the talks I've done, with slides and demos.
 
+## 2026
+
+- [BlazorConf](./2026/BlazorConf/)
+
 ## 2025
 
 - [Global Azure Milan 2025](./2025/GlobalAzureMilan/)
